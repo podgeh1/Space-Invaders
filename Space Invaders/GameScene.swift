@@ -29,6 +29,14 @@ class GameScene: SKScene {
     //  Define the name of the invaders to identify them
     let kInvaderName = "invader"
     
+    
+    
+    //Define the size of the ship 
+    let kShipSize = CGSize(width: 30, height: 16)
+    
+    //Define the name of the ship to identify it
+    let kShipName = "ship"
+    
     var contentCreated = false
     
     // Object Lifecycle Management
@@ -55,6 +63,9 @@ class GameScene: SKScene {
         
         // black space color
         self.backgroundColor = SKColor.blackColor()
+        
+        //display the ship on the screen
+        setupShip()
     }
     
     
@@ -81,7 +92,7 @@ class GameScene: SKScene {
     }
     
     
-    
+    //method to setup the invaders position in the scene and which invader type each invader should have
     func setupInvaders() {
         //declare and set the base origin
         let baseOrigin = CGPoint(x:size.width / 3, y:180)
@@ -118,7 +129,26 @@ class GameScene: SKScene {
     
     
     
-
+    
+    func setupShip() {
+        //create a ship using makeShip()
+                let ship = makeShip()
+                
+        //place the ship on the screen
+                //In SpriteKit, the origin is at the lower left corner of the screen.
+                //The anchorPoint is based on a unit square where (0,0) is the lower left corner of the sprites area and (1,1) is the top right 
+                //Since SKSpriteNode has a default anchorPoint of (0.5, 0.5), i.e. it's center, the ships position is the position of it's center 
+                //Positioning the ship at kShipSize.height / 2.0 means half of it will protrude below it's position and the other half will protrude above
+                ship.position = CGPoint(x:size.width / 2.0, y: kShipSize.height / 2.0)
+                addChild(ship)
+    }
+    
+    
+    func makeShip() -> (SKNode) {
+            let ship = SKSpriteNode(color: SKColor.greenColor(), size: kShipSize)
+            ship.name = kShipName
+            return ship
+    }
     
     
     
