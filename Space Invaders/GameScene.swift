@@ -37,6 +37,14 @@ class GameScene: SKScene {
     //Define the name of the ship to identify it
     let kShipName = "ship"
     
+    
+    
+    
+    //add constraints for the HUD - Heads Up Display
+    let kScoreHudName = "scoreHud"
+    let kHealthHudName = "healthHud"
+    
+    
     var contentCreated = false
     
     // Object Lifecycle Management
@@ -66,6 +74,9 @@ class GameScene: SKScene {
         
         //display the ship on the screen
         setupShip()
+        
+        //call setup method for the HUD
+        setupHud()
     }
     
     
@@ -150,6 +161,42 @@ class GameScene: SKScene {
             return ship
     }
     
+    
+    
+    //Setuo HUD
+    func setupHud() {
+                //give the scorelabel a name (soo i can update it later when I need to update the displayed score)
+        let scoreLabel = SKLabelNode(fontNamed: "Courier")
+        scoreLabel.name = kScoreHudName
+        scoreLabel.fontSize = 25
+        
+        
+        //color the score label green
+        scoreLabel.fontColor = SKColor.greenColor()
+        scoreLabel.text = NSString(format: "Score: %04u", 0)
+        
+        //position the score label
+        println(size.height)
+        scoreLabel.position = CGPoint(x: frame.size.width / 2, y: size.height - (40 + scoreLabel.frame.size.height/2))
+        addChild(scoreLabel)
+        
+        
+        //Give the health label a name so I can access it later when I need to update the displayed health
+        let healthLabel = SKLabelNode(fontNamed: "Courier")
+        healthLabel.name = kHealthHudName
+        healthLabel.fontSize = 25
+        
+        //Color the health label red 
+        healthLabel.fontColor = SKColor.redColor()
+        healthLabel.text = NSString(format: "Health: %.1f%%", 100.0)
+        
+        
+        //Position the health label below the score label
+        healthLabel.position = CGPoint(x: frame.size.width / 2, y: size.height - (80 + healthLabel.frame.size.height/2))
+        addChild(healthLabel)
+        
+                    
+    }
     
     
 
