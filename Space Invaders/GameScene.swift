@@ -11,6 +11,9 @@ import CoreMotion
 
 class GameScene: SKScene {
     
+    //delclare property for CoreMotion
+    let motionManager: CMMotionManager = CMMotionManager()
+    
     // Private GameScene Properties
     
     var contentCreated = false
@@ -89,6 +92,10 @@ class GameScene: SKScene {
         if (!self.contentCreated) {
             self.createContent()
             self.contentCreated = true
+            
+            //get accelerometer data through CMMotionManager
+            //by using the motion manager anf it's accelerometer data, I can control the ships movement
+            motionManager.startAccelerometerUpdates()
         }
     }
     
@@ -103,6 +110,9 @@ class GameScene: SKScene {
         
         // black space color
         self.backgroundColor = SKColor.blackColor()
+        
+        //add an edge loop (physiscs body) around the boundary of the screen to collide with the ship
+        physicsBody = SKPhysicsBody(edgeLoopFromRect: frame)
         
         //display the invaders on the screen
         setupInvaders()
@@ -195,6 +205,19 @@ class GameScene: SKScene {
     func makeShip() -> SKNode {
             let ship = SKSpriteNode(color: SKColor.greenColor(), size: kShipSize)
             ship.name = kShipName
+        
+            //create physics body for ship (Here I created a rectangular physics body which is the same size as the ship)
+            ship.physicsBody = SKPhysicsBody(rectangleOfSize: ship.frame.size)
+        
+            //is the ship moved using the physics simulator? - yes
+            //the ship can be subject to things such as collisions and outside forces because it's dynamic
+            ship.physicsBody!.dynamic = true
+        
+            //is the ship affected by gravity? - no, otherwise it might drop off the screen
+            ship.physicsBody!.affectedByGravity = false
+        
+            //give the ship an arbitrary mass so its movement feels natural
+            ship.physicsBody!.mass = 0.02
             return ship
     }
     
@@ -250,6 +273,10 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         
+        //move the ship
+        //processUserMotionForUpdate will get called 60 times per second as the scene updates
+        processUserMotionForUpdate(currentTime)
+        
         //move invaders
         moveInvadersForUpdate(currentTime)
     }
@@ -294,6 +321,33 @@ class GameScene: SKScene {
             self.timeOfLastMove = currentTime
         
         })
+    }
+    
+    
+    
+    func processUserMotionForUpdate(currentTime: CFTimeInterval) {
+        
+        //get the ship from the scene so i can move it
+        let ship = childNodeWithName(kShipName) as SKSpriteNode
+        
+        //get the accelerometer data form the motion manager
+        //It is an optional -- a variable that can hold either a value or no value
+        //if let data -- checks if there is a value in accelerometerData: if this is the case, assign it to the constant data to use it safely within the if's scope
+        if let data = motionManager.accelerometerData {
+            
+            //if the device is oriented with the screen facing up + home button at the button, then tilting the devices to the right produces data.acceleration.x > 0, therefore tilting to the left produces data.acceleration.x < 0 and if the device is laid down flat it will produce data.acceleration == 0 (or as long as it's close to 0.2)
+            //fabs returns the absolute value of x
+            if (fabs(data.acceleration.x) > 0.2) {
+                
+                
+                //Physics: need small values to move the ship a little and large values to move the ship a lot
+                //the ships physicsBody is created in makeShip()
+                ////here I will apply a force to the ships physics body in the same direction as data.acceleration.x
+                ship.physicsBody!.applyForce(CGVectorMake(40.0 * CGFloat(data.acceleration.x), 0))
+                
+                
+            }
+        }
     }
     
     
