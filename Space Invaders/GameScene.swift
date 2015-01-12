@@ -13,6 +13,8 @@ class GameScene: SKScene {
     
     // Private GameScene Properties
     
+    var contentCreated = false
+    
     //invaders move in a fixed pattern-> right, right, down, left, left, down, right, right etc.
     //InvaderMovementDirection can be used to keep track of the invaders progress through this pattern
     enum InvaderMovementDirection {
@@ -22,6 +24,18 @@ class GameScene: SKScene {
         case DownThenLeft
         case None
     }
+    
+    
+    
+    //initialise invader movement
+    //invaders begin by moving to the right
+    var invaderMovementDirection: InvaderMovementDirection = .Right
+    //invaders haven't moved yet, so set the time to zero
+    var timeOfLastMove: CFTimeInterval = 0.0
+    //Invaders take 1 second for each move. Each step left, right or down takes 1 second
+    var timePerMove: CFTimeInterval = 1.0
+    
+    
     
     // Define the different types of enemies
     enum InvaderType {
@@ -55,15 +69,15 @@ class GameScene: SKScene {
     let kHealthHudName = "healthHud"
     
     
-    var contentCreated = false
+//    var contentCreated = false
     
-    //initialise invader movement
-    //invaders begin by moving to the right 
-    var invaderMovementDirection: InvaderMovementDirection = .Right
-    //invaders haven't moved yet, so set the time to zero
-    var timeOfLastMove: CFTimeInterval = 0.0
-    //Invaders take 1 second for each move. Each step left, right or down takes 1 second
-    var timePerMove: CFTimeInterval = 1.0
+//    //initialise invader movement
+//    //invaders begin by moving to the right 
+//    var invaderMovementDirection: InvaderMovementDirection = .Right
+//    //invaders haven't moved yet, so set the time to zero
+//    var timeOfLastMove: CFTimeInterval = 0.0
+//    //Invaders take 1 second for each move. Each step left, right or down takes 1 second
+//    var timePerMove: CFTimeInterval = 1.0
     
     
     
@@ -86,11 +100,13 @@ class GameScene: SKScene {
 //        
 //        self.addChild(invader)
         
-        //display the invaders on the screen
-        setupInvaders()
         
         // black space color
         self.backgroundColor = SKColor.blackColor()
+        
+        //display the invaders on the screen
+        setupInvaders()
+        
         
         //display the ship on the screen
         setupShip()
@@ -118,6 +134,7 @@ class GameScene: SKScene {
     //call the initialiser SKSpriteNode to initialise a sprite that renders as a rectangle of the given color invaderColor of size kInvaderSize
         let invader = SKSpriteNode(color: invaderColor, size: kInvaderSize)
         invader.name = kInvaderName
+        
         return invader
     
     }
@@ -175,7 +192,7 @@ class GameScene: SKScene {
     }
     
     
-    func makeShip() -> (SKNode) {
+    func makeShip() -> SKNode {
             let ship = SKSpriteNode(color: SKColor.greenColor(), size: kShipSize)
             ship.name = kShipName
             return ship
@@ -249,6 +266,10 @@ class GameScene: SKScene {
             return
         }
         
+        //determine the invaders movement
+        //I call determineInvaderMovementDirection here because I want the invader movement direction to change only when the invaders are actually moving
+        determineInvaderMovementDirection()
+        
         //remember: the scene holds the invaders as child nodes (I added them to the scene using addChild() in setupInvaders())
         //invoking enumerateChildNodesWithName() loops over the invaders because they're named kInvaderName -- This makes the loop skip my ship and HUDs
         //the block moves the invaders 10 pixels either left right or down depending on the values of invaderMovementDirection
@@ -282,8 +303,50 @@ class GameScene: SKScene {
     
     // Invader Movement Helpers
 
+    func determineInvaderMovementDirection() {
     
+    // 1 -- keep a reference to the current invaderMoveDirection so i can reference it in step 2
+    var proposedMovementDirection: InvaderMovementDirection = invaderMovementDirection
     
+    // 2 -- loop over all invaders and invoke the block with the invader as an argument
+    enumerateChildNodesWithName(kInvaderName) { node, stop in
+        switch self.invaderMovementDirection {
+    case .Right:
+            //3 -- if the right corner of the invader touches the right side of the scene, the invader will move down then left
+            //if the invaders right edge is within one point of the right edge of the scene, it's about to move off the scene. Set proposedMovementDirection so the invader will move down then left.
+            //You compare the invaders frame with the scene width
+            if (CGRectGetMaxX(node.frame) >= node.scene!.size.width - 1.0) {
+                proposedMovementDirection = .DownThenLeft
+                stop.memory = true
+        }
+    case .Left:
+            //4 -- if the invaders left edge is 1 point from the left edge of the scen,  move down then right
+            if (CGRectGetMinX(node.frame) <= 1.0) {
+                proposedMovementDirection = .DownThenRight
+                
+                stop.memory = true
+        }
+    case .DownThenLeft:
+            //5 -- if the invader is moving downThenLeft then they've moved down at this point so they should move left
+            //How this works willl become more obvious when I implement determineInvaderMovementDirection with moveInvadersForUpdate()
+            proposedMovementDirection = .Left
+            stop.memory = true
+    case .DownThenRight:
+                //6 -- if the invader is moving downThenRight they've already moved down at this point so they should just move right
+                proposedMovementDirection = .Right
+                stop.memory = true
+    default:
+        break
+        }
+    }
+    
+    //7 -- if the proposedMovementDirection is different from the current invaderMovementDirection, update the current invader direction to the proposed movement direction
+    if (proposedMovementDirection != invaderMovementDirection) {
+        invaderMovementDirection = proposedMovementDirection
+    }
+    }
+    
+
     
     // Bullet Helpers
     
