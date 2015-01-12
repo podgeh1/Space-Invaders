@@ -13,6 +13,16 @@ class GameScene: SKScene {
     
     // Private GameScene Properties
     
+    //invaders move in a fixed pattern-> right, right, down, left, left, down, right, right etc.
+    //InvaderMovementDirection can be used to keep track of the invaders progress through this pattern
+    enum InvaderMovementDirection {
+        case Right
+        case Left
+        case DownThenRight
+        case DownThenLeft
+        case None
+    }
+    
     // Define the different types of enemies
     enum InvaderType {
         case A
@@ -46,6 +56,16 @@ class GameScene: SKScene {
     
     
     var contentCreated = false
+    
+    //initialise invader movement
+    //invaders begin by moving to the right 
+    var invaderMovementDirection: InvaderMovementDirection = .Right
+    //invaders haven't moved yet, so set the time to zero
+    var timeOfLastMove: CFTimeInterval = 0.0
+    //Invaders take 1 second for each move. Each step left, right or down takes 1 second
+    var timePerMove: CFTimeInterval = 1.0
+    
+    
     
     // Object Lifecycle Management
     
@@ -212,12 +232,58 @@ class GameScene: SKScene {
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        
+        //move invaders
+        moveInvadersForUpdate(currentTime)
     }
     
     
     // Scene Update Helpers
     
+    //ready to make the invaders move
+    func moveInvadersForUpdate(currentTime: CFTimeInterval) {
+        
+        //If it's not time to move, then exit the method.
+        //moveInvadersForUpdate is involed 60 times per second but I don't want the invaders to move that often since the movement would be too fast
+        if (currentTime - timeOfLastMove < timePerMove) {
+            return
+        }
+        
+        //remember: the scene holds the invaders as child nodes (I added them to the scene using addChild() in setupInvaders())
+        //invoking enumerateChildNodesWithName() loops over the invaders because they're named kInvaderName -- This makes the loop skip my ship and HUDs
+        //the block moves the invaders 10 pixels either left right or down depending on the values of invaderMovementDirection
+        enumerateChildNodesWithName(kInvaderName, usingBlock: {
+            (node: SKNode!, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+            
+            switch self.invaderMovementDirection {
+            case .Right:
+                node.position = CGPoint(x: node.position.x + 10, y: node.position.y)
+            case .Left:
+                node.position = CGPoint(x: node.position.x - 10, y: node.position.y)
+            case .DownThenLeft, .DownThenRight:
+                    node.position = CGPoint(x: node.position.x, y: node.position.y - 10)
+            case .None:
+                break
+            default:
+                break
+            }
+            
+            
+            //record that the invaders have just moved, so that the next time this method is invoked (1/60th of a second from now), the invaders won't move again till the set time period of one second has elapsed
+            self.timeOfLastMove = currentTime
+        
+        })
+    }
+    
+    
+    
+    
+    
+    
     // Invader Movement Helpers
+
+    
+    
     
     // Bullet Helpers
     
