@@ -11,6 +11,23 @@ import CoreMotion
 
 class GameScene: SKScene {
     
+    //enumerations for different bullets
+    //I'll use BulletTyoe to share the same bullet code for both the invaders and the ship
+    enum BulletType {
+        case ShipFiredBulletType
+        case InvaderFiredBulletType
+    }
+    
+    //properties for bullets
+    let kShipFiredBulletName = "shipFiredBullet"
+    let kInvaderFiredBulletName = "invaderFiredBullet"
+    let kBulletSize = CGSizeMake(4, 8)
+    
+    
+    //initialise the tap queue to an empty array
+    var tapQueue: Array<Int> = []
+    
+    
     //delclare property for CoreMotion
     let motionManager: CMMotionManager = CMMotionManager()
     
@@ -86,6 +103,11 @@ class GameScene: SKScene {
     
     // Object Lifecycle Management
     
+    
+    
+    
+    
+    
     // Scene Setup and Content Creation
     override func didMoveToView(view: SKView) {
         
@@ -96,6 +118,9 @@ class GameScene: SKScene {
             //get accelerometer data through CMMotionManager
             //by using the motion manager anf it's accelerometer data, I can control the ships movement
             motionManager.startAccelerometerUpdates()
+            
+            //ensure the scene can receive tap events from the user
+            userInteractionEnabled = true
         }
     }
     
@@ -259,6 +284,27 @@ class GameScene: SKScene {
     }
     
     
+    //makeBulletOfType() method is used to create a rectangular sprite with a color and a name (so I can find it later in my scene)
+    func makeBulletOfType(bulletType: BulletType) -> SKNode! {
+        
+        var bullet: SKNode!
+        
+        switch (bulletType) {
+        case .ShipFiredBulletType:
+            bullet = SKSpriteNode(color: SKColor.greenColor(), size: kBulletSize)
+            bullet.name = kShipFiredBulletName
+        case .InvaderFiredBulletType:
+            bullet = SKSpriteNode(color: SKColor.magentaColor(), size: kBulletSize)
+            bullet.name = kInvaderFiredBulletName
+            break;
+        default:
+            bullet = nil
+        }
+        
+        return bullet
+    }
+    
+    
 
     
     
@@ -272,6 +318,9 @@ class GameScene: SKScene {
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        
+        //process user taps
+        processUserTapsForUpdate(currentTime)
         
         //move the ship
         //processUserMotionForUpdate will get called 60 times per second as the scene updates
@@ -350,6 +399,18 @@ class GameScene: SKScene {
         }
     }
     
+    func processUserTapsForUpdate(currentTime: CFTimeInterval) {
+        //Loop over tapQueue
+        for tapCount in self.tapQueue {
+            if tapCount == 1 {
+                //If the queue entry is a single tap
+                self.fireShipBullets()
+            }
+            //remove the tap from the queue
+            self.tapQueue.removeAtIndex(0)
+        }
+    }
+    
     
     
     
@@ -401,14 +462,108 @@ class GameScene: SKScene {
     }
     
 
+
+    
     
     // Bullet Helpers
     
+    func fireBullet(bullet: SKNode, toDestination destination:CGPoint, withDuration duration: CFTimeInterval, andSoundFileName soundName: String) {
+        
+        
+        //bulletAction will move the bullet to its desired destination and then removes it from the scene
+        //The next action will then take place after the previous action has completed
+        let bulletAction = SKAction.sequence([SKAction.moveTo(destination, duration: duration), SKAction.waitForDuration(3.0/60.0), SKAction.removeFromParent()])
+        
+        //play the sound to show that the bullet was fired
+        let soundAction = SKAction.playSoundFileNamed(soundName, waitForCompletion: true)
+        
+        
+        //move the bullet and play the sound at the same time by putting them in the same group
+        //A group will run its action in parallel NOT sequentially
+        bullet.runAction(SKAction.group([bulletAction, soundAction]))
+        
+        //make the bullet appear on sceen and start it's actions by adding it to the scene
+        addChild(bullet)
+    }
+    
+    
+    func fireShipBullets() {
+        
+        let existingBullet = self.childNodeWithName(kShipFiredBulletName)
+        
+        //only fire a bullet if there isn't one currently on the screen. -- takes time to reload
+        if existingBullet == nil {
+            
+            if let ship = self.childNodeWithName(kShipName) {
+                if let bullet = self.makeBulletOfType(.ShipFiredBulletType) {
+                    
+                    //set the bullets position to be at the top of the ship
+                    bullet.position = CGPointMake(ship.position.x, ship.position.y + ship.frame.size.height - bullet.frame.size.height / 2)
+                    
+                    //set the bullets destination to be just off the top of the screen. 
+                    let bulletDestination = CGPointMake(ship.position.x, self.frame.size.height + bullet.frame.size.height / 2)
+                    
+                    //fire!!!!!!!!!!!!!
+                    self.fireBullet(bullet, toDestination: bulletDestination, withDuration: 1.0, andSoundFileName: "Laser_Shoot2.wav")
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
     // User Tap Helpers
+    //tell the receiver when one or more fingers touch down in a view
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        
+    }
+    
+    //tell the receiver a finger or more has moved on the view
+    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+        
+    }
+    
+    //tell the receiver a system event(e.g. low memory) has cancelled a touch event
+    override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
+        
+    }
+    
+    
+    //I added the above 3 empty stub methods because apple recommends doing so when you override touchesEnded() without calling super()
+    //tell the receiver when a finger has been lifted off the view
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        
+        //touch has the value where you can touch anything
+        if let touch : AnyObject = touches.anyObject() {
+            
+            //if the user taps once
+            if(touch.tapCount == 1) {
+                
+                //add a tap to the queue
+                //all the queue needs to know is that a tap occured i.e. I'll use the integer 1 as a mnemonic for a single tap
+                self.tapQueue.append(1)
+            }
+        }
+    }
+    
+    
     
     // HUD Helpers
     
+    
+    
+    
+    
     // Physics Contact Helpers
+    
+    
+    
+    
+    
+    
     
     // Game End Helpers
     
