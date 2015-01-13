@@ -11,6 +11,19 @@ import CoreMotion
 
 class GameScene: SKScene {
     
+    //create different types of categories for different types of physics bodies
+    //I'll do this by defining different category bitmasks
+    //A bitmask is a way of stuffing multiple on/off variables into a single 32bit int
+    //A bitmask can have 32 distint values when stored as a UInt32
+    //Each of the following 5 bodies will define 5 different types of physics bodies
+    //The no to the right of << guarantees each bitmask is unique
+    let kInvaderCategory: UInt32 = 0x1 << 0
+    let kShipFiredBulletCategory: UInt32 = 0x1 << 1
+    let kShipCategory: UInt32 = 0x1 << 2
+    let kSceneEdgeCategory: UInt32 = 0x1 << 3
+    let kInvaderFiredBulletCategory: UInt32 = 0x1 << 4
+    
+    
     //enumerations for different bullets
     //I'll use BulletTyoe to share the same bullet code for both the invaders and the ship
     enum BulletType {
@@ -139,6 +152,10 @@ class GameScene: SKScene {
         //add an edge loop (physiscs body) around the boundary of the screen to collide with the ship
         physicsBody = SKPhysicsBody(edgeLoopFromRect: frame)
         
+        
+        //set the category for the physics body of the scene
+        physicsBody!.categoryBitMask = kSceneEdgeCategory
+        
         //display the invaders on the screen
         setupInvaders()
         
@@ -169,6 +186,18 @@ class GameScene: SKScene {
     //call the initialiser SKSpriteNode to initialise a sprite that renders as a rectangle of the given color invaderColor of size kInvaderSize
         let invader = SKSpriteNode(color: invaderColor, size: kInvaderSize)
         invader.name = kInvaderName
+        
+        
+        //create a physics body for the invader
+        invader.physicsBody = SKPhysicsBody(rectangleOfSize: invader.frame.size)
+        //the invader is not moved by a physics simulator i.e. dynamic == false
+        invader.physicsBody!.dynamic = false
+        //create a category for the physics body of the invader
+        invader.physicsBody!.categoryBitMask = kInvaderCategory
+        //the invader cannot detect contact with anything
+        invader.physicsBody!.categoryBitMask = 0x0
+        //the invader cannot come detect collision with anything
+        invader.physicsBody!.collisionBitMask = 0x0
         
         return invader
     
@@ -243,6 +272,14 @@ class GameScene: SKScene {
         
             //give the ship an arbitrary mass so its movement feels natural
             ship.physicsBody!.mass = 0.02
+        
+            //set the category for the physics body of the ship
+            ship.physicsBody!.categoryBitMask = kShipCategory
+            //DONT detect CONTACT between ship and other physics bodies
+            ship.physicsBody!.contactTestBitMask = 0x0
+            //DO detect COLLISION between ship and the scenes outer edges (so it will bounce back)
+            ship.physicsBody!.collisionBitMask = kSceneEdgeCategory
+        
             return ship
     }
     
@@ -293,9 +330,41 @@ class GameScene: SKScene {
         case .ShipFiredBulletType:
             bullet = SKSpriteNode(color: SKColor.greenColor(), size: kBulletSize)
             bullet.name = kShipFiredBulletName
+            
+            //create a physics body for the ship bullet
+            bullet.physicsBody = SKPhysicsBody(rectangleOfSize: bullet.frame.size)
+            //the ship bullet is controlled by physics simulation
+            //by setting dynamic to true the ship bullets can detect contact
+            bullet.physicsBody!.dynamic = true
+            //the ship bullet is not affected by gravity
+            bullet.physicsBody!.affectedByGravity = false
+            //set the category of the physics body of the ship bullet
+            bullet.physicsBody!.categoryBitMask = kShipFiredBulletCategory
+            //the ship bullet must detect contact with an invaders physical body
+            //the reason why I'm setting the ships bullet to detect contact with an invader and not letting the invader have contact with the ships bullet is because: When sprite kit checks for contact between any two physics bodies, only one of the bodies need to declare that it should test for contact with the other body
+            bullet.physicsBody!.contactTestBitMask = kInvaderCategory
+            //the ship bullet must NOT detect collision with another entity
+            bullet.physicsBody!.collisionBitMask = 0x0
+            
         case .InvaderFiredBulletType:
             bullet = SKSpriteNode(color: SKColor.magentaColor(), size: kBulletSize)
             bullet.name = kInvaderFiredBulletName
+            
+            
+            //create a physical body for the invader bullet
+            bullet.physicsBody = SKPhysicsBody(rectangleOfSize: bullet.frame.size)
+            //the invader bullet is controlled by a physics simulator
+            bullet.physicsBody!.dynamic = true
+            //the invader bullet is not affected by gravity
+            bullet.physicsBody!.affectedByGravity = false
+            //set the category for the invader bullet physics body
+            bullet.physicsBody!.categoryBitMask = kInvaderFiredBulletCategory
+            //the invader bullet must detect contact with the ships physical body
+            bullet.physicsBody!.contactTestBitMask = kShipCategory
+            //the invader must NOT detect collision with any entities
+            bullet.physicsBody!.collisionBitMask = 0x0
+            
+            
             break;
         default:
             bullet = nil
