@@ -16,6 +16,7 @@
 		812F6F371A62DB87004D4649 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 812F6F351A62DB87004D4649 /* LaunchScreen.xib */; };
 		812F6F431A62DB88004D4649 /* Space_InvadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812F6F421A62DB88004D4649 /* Space_InvadersTests.swift */; };
 		81D552011A659A30005A39C1 /* Laser_Shoot2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 81D552001A659A30005A39C1 /* Laser_Shoot2.wav */; };
+		81D552031A65BF8A005A39C1 /* Laser_Shoot23.wav in Resources */ = {isa = PBXBuildFile; fileRef = 81D552021A65BF8A005A39C1 /* Laser_Shoot23.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		812F6F411A62DB88004D4649 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		812F6F421A62DB88004D4649 /* Space_InvadersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space_InvadersTests.swift; sourceTree = "<group>"; };
 		81D552001A659A30005A39C1 /* Laser_Shoot2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Laser_Shoot2.wav; sourceTree = "<group>"; };
+		81D552021A65BF8A005A39C1 /* Laser_Shoot23.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Laser_Shoot23.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				81D552001A659A30005A39C1 /* Laser_Shoot2.wav */,
+				81D552021A65BF8A005A39C1 /* Laser_Shoot23.wav */,
 				812F6F271A62DB87004D4649 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -205,6 +208,7 @@
 				812F6F371A62DB87004D4649 /* LaunchScreen.xib in Resources */,
 				812F6F341A62DB87004D4649 /* Images.xcassets in Resources */,
 				812F6F2B1A62DB87004D4649 /* GameScene.sks in Resources */,
+				81D552031A65BF8A005A39C1 /* Laser_Shoot23.wav in Resources */,
 				81D552011A659A30005A39C1 /* Laser_Shoot2.wav in Resources */,
 				812F6F321A62DB87004D4649 /* Main.storyboard in Resources */,
 			);

@@ -328,6 +328,9 @@ class GameScene: SKScene {
         
         //move invaders
         moveInvadersForUpdate(currentTime)
+        
+        //tell the ships to fire!!!!!!!
+        fireInvaderBulletsForUpdate(currentTime)
     }
     
     
@@ -411,6 +414,44 @@ class GameScene: SKScene {
         }
     }
     
+    
+    func fireInvaderBulletsForUpdate(currentTime: CFTimeInterval) {
+        
+        let existingBullet = self.childNodeWithName(kInvaderFiredBulletName)
+        
+        //only fire a bullet if it's not already on the screen
+        if existingBullet == nil {
+            
+            var allInvaders = Array<SKNode>()
+            
+            //collect all invaders currently on the screen
+            self.enumerateChildNodesWithName(kInvaderName) {
+                node, stop in
+                
+                allInvaders.append(node)
+            }
+            
+            if allInvaders.count > 0 {
+                
+                //select an invader at random
+                let allInvadersIndex = Int(arc4random_uniform(UInt32(allInvaders.count)))
+                
+                let invader = allInvaders[allInvadersIndex]
+                
+                //create a bullet + fire it below the selected invader
+                let bullet = self.makeBulletOfType(.InvaderFiredBulletType)
+                bullet.position = CGPointMake(invader.position.x, invader.position.y - invader.frame.size.height / 2 + bullet.frame.size.height / 2)
+                
+                //make the bullet travel straight down and move off the bottom of the screen
+                let bulletDestination = CGPointMake(invader.position.x, -(bullet.frame.size.height / 2))
+                
+                //fire off the invaders bullet
+                self.fireBullet(bullet, toDestination: bulletDestination, withDuration: 2.0, andSoundFileName: "Laser_Shoot23.wav")
+            }
+            
+        }
+        
+    }
     
     
     
