@@ -202,7 +202,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //create a category for the physics body of the invader
         invader.physicsBody!.categoryBitMask = kInvaderCategory
         //the invader cannot detect contact with anything
-        invader.physicsBody!.categoryBitMask = 0x0
+        invader.physicsBody!.contactTestBitMask = 0x0
         //the invader cannot come detect collision with anything
         invader.physicsBody!.collisionBitMask = 0x0
         
@@ -415,17 +415,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Scene Update Helpers
     
-    //drain the contact queue -- by calling handleContact for each contact in the queue + then removing the conatct
-    func processContactsForUpdate(currentTime: CFTimeInterval) {
-        
-        for contact in self.contactQueue {
-            self.handleContact(contact)
-            
-            if let index = (self.contactQueue as NSArray).indexOfObject(contact) as Int? {
-                self.contactQueue.removeAtIndex(index)
-            }
-        }
-    }
+    
     
     //ready to make the invaders move
     func moveInvadersForUpdate(currentTime: CFTimeInterval) {
@@ -471,7 +461,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func processUserMotionForUpdate(currentTime: CFTimeInterval) {
         
         //get the ship from the scene so i can move it
-        if let ship = childNodeWithName(kShipName) as? SKSpriteNode {
+        if let ship = self.childNodeWithName(kShipName) as? SKSpriteNode {
         
         //get the accelerometer data form the motion manager
         //It is an optional -- a variable that can hold either a value or no value
@@ -544,6 +534,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
+    }
+    
+    
+    //drain the contact queue -- by calling handleContact for each contact in the queue + then removing the conatct
+    func processContactsForUpdate(currentTime: CFTimeInterval) {
+        
+        for contact in self.contactQueue {
+            self.handleContact(contact)
+            
+            if let index = (self.contactQueue as NSArray).indexOfObject(contact) as Int? {
+                self.contactQueue.removeAtIndex(index)
+            }
+        }
     }
     
     
@@ -724,7 +727,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if ((nodeNames as NSArray).containsObject(kInvaderName) && (nodeNames as NSArray).containsObject(kShipFiredBulletName)) {
             
             //if the ship bullet hits an invader, remove the invader and the ship bullet and play an explosion sound
-            self.runAction(SKAction.playSoundFileNamed("Explosion26.wav", waitForCompletion: false))
+            self.runAction(SKAction.playSoundFileNamed("Explosion26.wav", waitForCompletion:false))
             contact.bodyA.node!.removeFromParent()
             contact.bodyB.node!.removeFromParent()
         }
