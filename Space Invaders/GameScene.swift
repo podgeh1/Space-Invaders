@@ -12,6 +12,11 @@ import CoreMotion
 //Use SKPhysicsContactDelegate to declare the scene as a delegate for the physics engine
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    //properties for the HUD
+    //ship health starts @ 100% but i'll store it as a no ranging from 0 to 1
+    var score: Int = 0
+    var shipHealth: Float = 1.0
+    
     //create a queue to store contacts until they can be processed via update
     var contactQueue = Array<SKPhysicsContact>()
     
@@ -317,7 +322,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Color the health label red 
         healthLabel.fontColor = SKColor.redColor()
-        healthLabel.text = NSString(format: "Health: %.1f%%", 100.0)
+        //set the hud text based on the actual health of the ship
+        healthLabel.text = String(format: "Health: %.1f%%", self.shipHealth * 100.0)
+        
         
         
         //Position the health label below the score label
@@ -690,6 +697,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // HUD Helpers
     
+    //update the score + score label
+    func adjustScoreBy(points: Int) {
+        
+        //update the score
+        self.score += points
+        
+        //make score a label
+        let score = self.childNodeWithName(kScoreHudName) as SKLabelNode
+        
+        //update the text of the score label
+        score.text = String(format: "Score: %04u", self.score)
+    }
+    
+    //update the health and health label
+    func adjustShipHealthBy(healthAdjustment: Float) {
+        
+        //ensure the ships health doesn't go negative
+        self.shipHealth = max(self.shipHealth + healthAdjustment, 0)
+        
+        //make health a label
+        let health = self.childNodeWithName(kHealthHudName) as SKLabelNode
+        
+        //update the text of the health label
+        health.text = String(format: "Health: %.1f%%", self.shipHealth * 100)
+        
+    }
+    
     
     
     
@@ -718,11 +752,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //containsObject is not implemented in swift array i.e. I'm going cast the Array to NSArray in order to get access to NSArray's methods
         if (nodeNames as NSArray).containsObject(kShipName) && (nodeNames as NSArray).containsObject(kInvaderFiredBulletName) {
             
-            //If invader bullet hits the ship, remove the ship + bullet from the scene + play sound
+            //If invader bullet hits the ship, play sound
             self.runAction(SKAction.playSoundFileNamed("Explosion18.wav", waitForCompletion: false))
             
-            contact.bodyA.node!.removeFromParent()
-            contact.bodyB.node!.removeFromParent()
+            //deduct -0.334 from health
+            self.adjustShipHealthBy(-0.334)
+            
+            if self.shipHealth <= 0.0 {
+                //if the ship has no health remove both the invader bullet and the ship
+                contact.bodyA.node!.removeFromParent()
+                contact.bodyB.node!.removeFromParent()
+            } else {
+                //if the ship still has health
+                let ship = self.childNodeWithName(kShipName)!
+                
+                //dim the ships sprite
+                ship.alpha = CGFloat(self.shipHealth)
+                
+                //remove the bullet
+                if contact.bodyA.node == ship {
+                    
+                    contact.bodyB.node!.removeFromParent()
+                } else {
+                    contact.bodyA.node!.removeFromParent()
+                }
+                
+            }
             
         } else if ((nodeNames as NSArray).containsObject(kInvaderName) && (nodeNames as NSArray).containsObject(kShipFiredBulletName)) {
             
@@ -730,6 +785,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.runAction(SKAction.playSoundFileNamed("Explosion26.wav", waitForCompletion:false))
             contact.bodyA.node!.removeFromParent()
             contact.bodyB.node!.removeFromParent()
+            
+            //add 100 points to score when invader is hit by ship bullet
+            self.adjustScoreBy(100)
         }
     }
     
