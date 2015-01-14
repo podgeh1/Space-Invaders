@@ -9,7 +9,11 @@
 import SpriteKit
 import CoreMotion
 
-class GameScene: SKScene {
+//Use SKPhysicsContactDelegate to declare the scene as a delegate for the physics engine
+class GameScene: SKScene, SKPhysicsContactDelegate {
+    
+    //create a queue to store contacts until they can be processed via update
+    var contactQueue = Array<SKPhysicsContact>()
     
     //create different types of categories for different types of physics bodies
     //I'll do this by defining different category bitmasks
@@ -134,6 +138,9 @@ class GameScene: SKScene {
             
             //ensure the scene can receive tap events from the user
             userInteractionEnabled = true
+            
+            //initialise an empty contact queue + set the scene as the contact delegate of the physics engine
+            physicsWorld.contactDelegate = self
         }
     }
     
@@ -388,6 +395,9 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         
+        //call the contact queue handler
+        processContactsForUpdate(currentTime)
+        
         //process user taps
         processUserTapsForUpdate(currentTime)
         
@@ -404,6 +414,18 @@ class GameScene: SKScene {
     
     
     // Scene Update Helpers
+    
+    //drain the contact queue -- by calling handleContact for each contact in the queue + then removing the conatct
+    func processContactsForUpdate(currentTime: CFTimeInterval) {
+        
+        for contact in self.contactQueue {
+            self.handleContact(contact)
+            
+            if let index = (self.contactQueue as NSArray).indexOfObject(contact) as Int? {
+                self.contactQueue.removeAtIndex(index)
+            }
+        }
+    }
     
     //ready to make the invaders move
     func moveInvadersForUpdate(currentTime: CFTimeInterval) {
@@ -449,7 +471,7 @@ class GameScene: SKScene {
     func processUserMotionForUpdate(currentTime: CFTimeInterval) {
         
         //get the ship from the scene so i can move it
-        let ship = childNodeWithName(kShipName) as SKSpriteNode
+        if let ship = childNodeWithName(kShipName) as? SKSpriteNode {
         
         //get the accelerometer data form the motion manager
         //It is an optional -- a variable that can hold either a value or no value
@@ -466,6 +488,8 @@ class GameScene: SKScene {
                 ////here I will apply a force to the ships physics body in the same direction as data.acceleration.x
                 ship.physicsBody!.applyForce(CGVectorMake(40.0 * CGFloat(data.acceleration.x), 0))
                 
+            }
+            
                 
             }
         }
@@ -668,6 +692,43 @@ class GameScene: SKScene {
     
     
     // Physics Contact Helpers
+    
+    //didBeginContact can execute at any time but I'm going to call it in update()
+    //when 2 physics bodies make contact this function will be called
+    //therefore it records the contacts to the queue so it can be called later
+    func didBeginContact(contact: SKPhysicsContact!) {
+        if contact != nil {
+            self.contactQueue.append(contact)
+        }
+    }
+    
+    func handleContact(contact: SKPhysicsContact) {
+        //dont allow the same contact twice
+        //ensure I haven't already handled this contact and removed it's nodes
+        if(contact.bodyA.node?.parent == nil || contact.bodyB.node?.parent == nil) {
+            return
+        }
+        
+        var nodeNames = [contact.bodyA.node!.name!, contact.bodyB.node!.name!]
+        
+        
+        //containsObject is not implemented in swift array i.e. I'm going cast the Array to NSArray in order to get access to NSArray's methods
+        if (nodeNames as NSArray).containsObject(kShipName) && (nodeNames as NSArray).containsObject(kInvaderFiredBulletName) {
+            
+            //If invader bullet hits the ship, remove the ship + bullet from the scene + play sound
+            self.runAction(SKAction.playSoundFileNamed("Explosion18.wav", waitForCompletion: false))
+            
+            contact.bodyA.node!.removeFromParent()
+            contact.bodyB.node!.removeFromParent()
+            
+        } else if ((nodeNames as NSArray).containsObject(kInvaderName) && (nodeNames as NSArray).containsObject(kShipFiredBulletName)) {
+            
+            //if the ship bullet hits an invader, remove the invader and the ship bullet and play an explosion sound
+            self.runAction(SKAction.playSoundFileNamed("Explosion26.wav", waitForCompletion: false))
+            contact.bodyA.node!.removeFromParent()
+            contact.bodyB.node!.removeFromParent()
+        }
+    }
     
     
     
