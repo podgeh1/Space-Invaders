@@ -15,6 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //properties for the end of the game
     let kMinInvaderBottomHeight: Float = 32.0
     var gameEnding: Bool = false
+    var gameWinning: Bool = false
     
     //properties for the HUD
     //ship health starts @ 100% but i'll store it as a no ranging from 0 to 1
@@ -453,6 +454,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         
+        //check if the game is won
+        if self.isGameWon() {
+            self.wonGame()
+        }
+        
         //check if the game is over
         if self.isGameOver() {
             self.endGame()
@@ -882,8 +888,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func isGameOver() -> Bool {
         
-        //Get remaining invaders
-        let invader = self.childNodeWithName(kInvaderName)
         
         //Iterate through invaders to check if any are too low
         var invaderTooLow = false
@@ -901,8 +905,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //set pointer to the ship
         let ship = self.childNodeWithName(kShipName)
         
-        //return whether game is over or not. If there are no moe invaders, invader is too low or ship is destroyed, then the game is over
-        return invader == nil || invaderTooLow || ship == nil
+        //return whether game is over or not. If invader is too low or ship is destroyed, then the game is over
+        return invaderTooLow || ship == nil
     }
     
     func endGame() {
@@ -919,6 +923,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             view!.presentScene(gameOverScene, transition: SKTransition.doorsOpenHorizontalWithDuration(1.0))
         }
+    }
+    
+    
+    // Game Win Helpers
+    
+    func isGameWon() -> Bool {
+        
+        //Get remaining invaders
+        let invader = self.childNodeWithName(kInvaderName)
+        
+        //return whether the game is won or not. If there is no invaders left in the scene the game is won
+        return invader == nil
+        
+    }
+    
+    func wonGame() {
+        if !self.gameWinning {
+            self.gameWinning = true
+            
+            //stop the accelerometer updates
+            self.motionManager.stopAccelerometerUpdates()
+            
+            //Show the GameWonScene
+            let gameWonScene: GameWonScene = GameWonScene(size: self.size)
+            
+            view!.presentScene(gameWonScene, transition: SKTransition.doorsOpenHorizontalWithDuration(1.0))
+            
+            
+        }
+        
     }
 
     
