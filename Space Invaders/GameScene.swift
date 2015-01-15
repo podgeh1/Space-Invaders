@@ -12,6 +12,7 @@ import CoreMotion
 //Use SKPhysicsContactDelegate to declare the scene as a delegate for the physics engine
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    
     //properties for the HUD
     //ship health starts @ 100% but i'll store it as a no ranging from 0 to 1
     var score: Int = 0
@@ -83,13 +84,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     enum InvaderType {
         case A
         case B
-        case C }
+        case C
+    }
     // Define the size of the invaders and define how they will be laid out in a grid of rows and columns
     let kInvaderSize = CGSize(width:24, height:16)
     let kInvaderGridSpacing = CGSize(width:12, height:12)
     let kInvaderRowCount = 6
     let kInvaderColCount = 6
-    
+
     
     
     //  Define the name of the invaders to identify them
@@ -98,7 +100,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     //Define the size of the ship 
-    let kShipSize = CGSize(width: 30, height: 16)
+    let kShipSize = CGSize(width:30, height:16)
     
     //Define the name of the ship to identify it
     let kShipName = "ship"
@@ -180,25 +182,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    func makeInvaderOfType(invaderType: InvaderType) -> (SKNode) {
-    //Use the invaderType parameter to determine the color of the invader
-    var invaderColor: SKColor
-    
+    func loadInvaderTexturesOftype(invaderType: InvaderType) -> Array<SKTexture> {
+        var prefix: String
+        
         switch(invaderType) {
         case .A:
-            invaderColor = SKColor.redColor()
+            prefix = "InvaderA"
         case .B:
-            invaderColor = SKColor.greenColor()
+            prefix = "InvaderB"
         case .C:
-            invaderColor = SKColor.blueColor()
+            prefix = "InvaderC"
         default:
-            invaderColor = SKColor.blueColor()
+            prefix = "InvaderC"
+        }
+        //load a pair of sprite images for each invader type + create SKTexture objects from them
+        return [SKTexture(imageNamed: String(format: "%@_00@2x.png", prefix)), SKTexture(imageNamed: String(format: "%@_01@2x.png", prefix))]
     }
     
-    //call the initialiser SKSpriteNode to initialise a sprite that renders as a rectangle of the given color invaderColor of size kInvaderSize
-        let invader = SKSpriteNode(color: invaderColor, size: kInvaderSize)
+    func makeInvaderOfType(invaderType: InvaderType) -> SKNode {
+        
+        let invaderTextures = self.loadInvaderTexturesOftype(invaderType)
+        
+        let invader = SKSpriteNode(texture: invaderTextures[0])
         invader.name = kInvaderName
         
+        //animate the 2 images in a continuous animation loop
+        invader.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(invaderTextures, timePerFrame: self.timePerMove)))
         
         //create a physics body for the invader
         invader.physicsBody = SKPhysicsBody(rectangleOfSize: invader.frame.size)
@@ -212,8 +221,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         invader.physicsBody!.collisionBitMask = 0x0
         
         return invader
-    
+        
     }
+    
+//    func makeInvaderOfType(invaderType: InvaderType) -> (SKNode) {
+//    //Use the invaderType parameter to determine the color of the invader
+//    var invaderColor: SKColor
+//    
+//        switch(invaderType) {
+//        case .A:
+//            invaderColor = SKColor.redColor()
+//        case .B:
+//            invaderColor = SKColor.greenColor()
+//        case .C:
+//            invaderColor = SKColor.blueColor()
+//        default:
+//            invaderColor = SKColor.blueColor()
+//    }
+//    
+//    //call the initialiser SKSpriteNode to initialise a sprite that renders as a rectangle of the given color invaderColor of size kInvaderSize
+//        let invader = SKSpriteNode(color: invaderColor, size: kInvaderSize)
+//        invader.name = kInvaderName
+//        
+//        
+//        //create a physics body for the invader
+//        invader.physicsBody = SKPhysicsBody(rectangleOfSize: invader.frame.size)
+//        //the invader is not moved by a physics simulator i.e. dynamic == false
+//        invader.physicsBody!.dynamic = false
+//        //create a category for the physics body of the invader
+//        invader.physicsBody!.categoryBitMask = kInvaderCategory
+//        //the invader cannot detect contact with anything
+//        invader.physicsBody!.contactTestBitMask = 0x0
+//        //the invader cannot come detect collision with anything
+//        invader.physicsBody!.collisionBitMask = 0x0
+//        
+//        return invader
+//    
+//    }
     
     
     //method to setup the invaders position in the scene and which invader type each invader should have
@@ -263,13 +307,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //The anchorPoint is based on a unit square where (0,0) is the lower left corner of the sprites area and (1,1) is the top right 
                 //Since SKSpriteNode has a default anchorPoint of (0.5, 0.5), i.e. it's center, the ships position is the position of it's center 
                 //Positioning the ship at kShipSize.height / 2.0 means half of it will protrude below it's position and the other half will protrude above
-                ship.position = CGPoint(x:size.width / 2.0, y: kShipSize.height / 2.0)
+                ship.position = CGPoint(x:size.width / 2.0, y:kShipSize.height / 2.0)
                 addChild(ship)
     }
     
     
     func makeShip() -> SKNode {
-            let ship = SKSpriteNode(color: SKColor.greenColor(), size: kShipSize)
+        let ship = SKSpriteNode(imageNamed: "Ship@2x.png")
             ship.name = kShipName
         
             //create physics body for ship (Here I created a rectangular physics body which is the same size as the ship)
@@ -343,7 +387,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         switch (bulletType) {
         case .ShipFiredBulletType:
             bullet = SKSpriteNode(color: SKColor.greenColor(), size: kBulletSize)
-            bullet.name = kShipFiredBulletName
+            //bullet.name = kShipFiredBulletName
             
             //create a physics body for the ship bullet
             bullet.physicsBody = SKPhysicsBody(rectangleOfSize: bullet.frame.size)
@@ -360,9 +404,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //the ship bullet must NOT detect collision with another entity
             bullet.physicsBody!.collisionBitMask = 0x0
             
+            bullet.name = kShipFiredBulletName
+            
         case .InvaderFiredBulletType:
             bullet = SKSpriteNode(color: SKColor.magentaColor(), size: kBulletSize)
-            bullet.name = kInvaderFiredBulletName
+//            bullet.name = kInvaderFiredBulletName
             
             
             //create a physical body for the invader bullet
@@ -377,6 +423,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             bullet.physicsBody!.contactTestBitMask = kShipCategory
             //the invader must NOT detect collision with any entities
             bullet.physicsBody!.collisionBitMask = 0x0
+            
+            bullet.name = kInvaderFiredBulletName
             
             
             break;
@@ -402,8 +450,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         
+        
         //call the contact queue handler
         processContactsForUpdate(currentTime)
+        
+        //tell the ships to fire!!!!!!!
+        fireInvaderBulletsForUpdate(currentTime)
         
         //process user taps
         processUserTapsForUpdate(currentTime)
@@ -415,8 +467,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //move invaders
         moveInvadersForUpdate(currentTime)
         
-        //tell the ships to fire!!!!!!!
-        fireInvaderBulletsForUpdate(currentTime)
     }
     
     
@@ -465,32 +515,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     
-    func processUserMotionForUpdate(currentTime: CFTimeInterval) {
-        
-        //get the ship from the scene so i can move it
-        if let ship = self.childNodeWithName(kShipName) as? SKSpriteNode {
-        
-        //get the accelerometer data form the motion manager
-        //It is an optional -- a variable that can hold either a value or no value
-        //if let data -- checks if there is a value in accelerometerData: if this is the case, assign it to the constant data to use it safely within the if's scope
-        if let data = motionManager.accelerometerData {
-            
-            //if the device is oriented with the screen facing up + home button at the button, then tilting the devices to the right produces data.acceleration.x > 0, therefore tilting to the left produces data.acceleration.x < 0 and if the device is laid down flat it will produce data.acceleration == 0 (or as long as it's close to 0.2)
-            //fabs returns the absolute value of x
-            if (fabs(data.acceleration.x) > 0.2) {
-                
-                
-                //Physics: need small values to move the ship a little and large values to move the ship a lot
-                //the ships physicsBody is created in makeShip()
-                ////here I will apply a force to the ships physics body in the same direction as data.acceleration.x
-                ship.physicsBody!.applyForce(CGVectorMake(40.0 * CGFloat(data.acceleration.x), 0))
-                
-            }
-            
-                
-            }
-        }
-    }
     
     func processUserTapsForUpdate(currentTime: CFTimeInterval) {
         //Loop over tapQueue
@@ -561,6 +585,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     // Invader Movement Helpers
+    
+    func processUserMotionForUpdate(currentTime: CFTimeInterval) {
+        
+        //get the ship from the scene so i can move it
+        if let ship = self.childNodeWithName(kShipName) as? SKSpriteNode {
+            
+            //get the accelerometer data form the motion manager
+            //It is an optional -- a variable that can hold either a value or no value
+            //if let data -- checks if there is a value in accelerometerData: if this is the case, assign it to the constant data to use it safely within the if's scope
+            if let data = motionManager.accelerometerData {
+                
+                //if the device is oriented with the screen facing up + home button at the button, then tilting the devices to the right produces data.acceleration.x > 0, therefore tilting to the left produces data.acceleration.x < 0 and if the device is laid down flat it will produce data.acceleration == 0 (or as long as it's close to 0.2)
+                //fabs returns the absolute value of x
+                if (fabs(data.acceleration.x) > 0.2) {
+                    
+                    
+                    //Physics: need small values to move the ship a little and large values to move the ship a lot
+                    //the ships physicsBody is created in makeShip()
+                    ////here I will apply a force to the ships physics body in the same direction as data.acceleration.x
+                    ship.physicsBody!.applyForce(CGVectorMake(40.0 * CGFloat(data.acceleration.x), 0))
+                    
+                }
+                
+                
+            }
+        }
+    }
+
 
     func determineInvaderMovementDirection() {
     
@@ -627,7 +679,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bullet.runAction(SKAction.group([bulletAction, soundAction]))
         
         //make the bullet appear on sceen and start it's actions by adding it to the scene
-        addChild(bullet)
+        self.addChild(bullet)
     }
     
     
@@ -671,7 +723,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     //tell the receiver a system event(e.g. low memory) has cancelled a touch event
-    override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
+    override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent) {
         
     }
     
@@ -742,7 +794,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func handleContact(contact: SKPhysicsContact) {
         //dont allow the same contact twice
         //ensure I haven't already handled this contact and removed it's nodes
-        if(contact.bodyA.node?.parent == nil || contact.bodyB.node?.parent == nil) {
+        if (contact.bodyA.node?.parent == nil || contact.bodyB.node?.parent == nil) {
             return
         }
         
