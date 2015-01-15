@@ -33,6 +33,7 @@
 		81D552611A67E109005A39C1 /* InvaderA_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D552531A67E109005A39C1 /* InvaderA_01.png */; };
 		81D552621A67E109005A39C1 /* InvaderA_00@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D552541A67E109005A39C1 /* InvaderA_00@2x.png */; };
 		81D552631A67E109005A39C1 /* InvaderA_00.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D552551A67E109005A39C1 /* InvaderA_00.png */; };
+		81D552671A68008D005A39C1 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D552661A68008D005A39C1 /* GameOverScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		81D552531A67E109005A39C1 /* InvaderA_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = InvaderA_01.png; sourceTree = "<group>"; };
 		81D552541A67E109005A39C1 /* InvaderA_00@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "InvaderA_00@2x.png"; sourceTree = "<group>"; };
 		81D552551A67E109005A39C1 /* InvaderA_00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = InvaderA_00.png; sourceTree = "<group>"; };
+		81D552661A68008D005A39C1 /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 				812F6F281A62DB87004D4649 /* AppDelegate.swift */,
 				812F6F2A1A62DB87004D4649 /* GameScene.sks */,
 				812F6F2C1A62DB87004D4649 /* GameScene.swift */,
+				81D552661A68008D005A39C1 /* GameOverScene.swift */,
 				812F6F2E1A62DB87004D4649 /* GameViewController.swift */,
 				812F6F301A62DB87004D4649 /* Main.storyboard */,
 				812F6F331A62DB87004D4649 /* Images.xcassets */,
@@ -294,6 +297,7 @@
 			files = (
 				812F6F2D1A62DB87004D4649 /* GameScene.swift in Sources */,
 				812F6F2F1A62DB87004D4649 /* GameViewController.swift in Sources */,
+				81D552671A68008D005A39C1 /* GameOverScene.swift in Sources */,
 				812F6F291A62DB87004D4649 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

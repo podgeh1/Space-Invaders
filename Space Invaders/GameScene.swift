@@ -12,6 +12,9 @@ import CoreMotion
 //Use SKPhysicsContactDelegate to declare the scene as a delegate for the physics engine
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    //properties for the end of the game
+    let kMinInvaderBottomHeight: Float = 32.0
+    var gameEnding: Bool = false
     
     //properties for the HUD
     //ship health starts @ 100% but i'll store it as a no ranging from 0 to 1
@@ -450,7 +453,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         
-        
+        //check if the game is over
+        if self.isGameOver() {
+            self.endGame()
+        }
         //call the contact queue handler
         processContactsForUpdate(currentTime)
         
@@ -850,5 +856,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     // Game End Helpers
+    
+    func isGameOver() -> Bool {
+        
+        //Get remaining invaders
+        let invader = self.childNodeWithName(kInvaderName)
+        
+        //Iterate through invaders to check if any are too low
+        var invaderTooLow = false
+        
+        self.enumerateChildNodesWithName(kInvaderName) {
+            node, stop in
+            
+            if (Float(CGRectGetMinY(node.frame)) <= self.kMinInvaderBottomHeight) {
+                
+                invaderTooLow = true
+                stop.memory = true
+            }
+        }
+        
+        //set pointer to the ship
+        let ship = self.childNodeWithName(kShipName)
+        
+        //return whether game is over or not. If there are no moe invaders, invader is too low or ship is destroyed, then the game is over
+        return invader == nil || invaderTooLow || ship == nil
+    }
+    
+    func endGame() {
+        //end the game only once
+        if !self.gameEnding {
+            
+            self.gameEnding = true
+            
+            //stop accelerometer updates
+            self.motionManager.stopAccelerometerUpdates()
+            
+            //Show the GameOverScene
+            let gameOverScene: GameOverScene = GameOverScene(size: self.size)
+            
+            view!.presentScene(gameOverScene, transition: SKTransition.doorsOpenHorizontalWithDuration(1.0))
+        }
+    }
+
     
 }
