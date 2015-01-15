@@ -592,6 +592,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Invader Movement Helpers
     
+    func adjustInvaderMovementToTimePerMove(newTimerPerMove: CFTimeInterval) {
+        //ignore crazt values, a value less than or equal to zero would mean the invader would move infinitely fast or backwards
+        if newTimerPerMove <= 0 {
+            return
+        }
+        
+        //set timePerMove to the given value -> this will increase the speed in moveInvadersForUpdate()
+        let ratio: CGFloat = CGFloat(self.timePerMove / newTimerPerMove)
+        self.timePerMove = newTimerPerMove
+        
+        self.enumerateChildNodesWithName(kInvaderName) {
+            node, stop in
+            node.speed = node.speed * ratio
+        }
+    }
+    
     func processUserMotionForUpdate(currentTime: CFTimeInterval) {
         
         //get the ship from the scene so i can move it
@@ -634,12 +650,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //You compare the invaders frame with the scene width
             if (CGRectGetMaxX(node.frame) >= node.scene!.size.width - 1.0) {
                 proposedMovementDirection = .DownThenLeft
+                
+                //invoke adjustInvaderMovementToTimePerMove
+                self.adjustInvaderMovementToTimePerMove(self.timePerMove * 0.8)
+                
                 stop.memory = true
         }
     case .Left:
             //4 -- if the invaders left edge is 1 point from the left edge of the scen,  move down then right
             if (CGRectGetMinX(node.frame) <= 1.0) {
                 proposedMovementDirection = .DownThenRight
+                
+                //invoke adjustInvaderMovementToTimePerMove
+                self.adjustInvaderMovementToTimePerMove(self.timePerMove * 0.8)
                 
                 stop.memory = true
         }
