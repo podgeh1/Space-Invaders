@@ -348,7 +348,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Setuo HUD
     func setupHud() {
                 //give the scorelabel a name (soo i can update it later when I need to update the displayed score)
-        let scoreLabel = SKLabelNode(fontNamed: "Courier")
+        let scoreLabel = SKLabelNode(fontNamed: "Space Age")
         scoreLabel.name = kScoreHudName
         scoreLabel.fontSize = 25
         
@@ -364,7 +364,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         //Give the health label a name so I can access it later when I need to update the displayed health
-        let healthLabel = SKLabelNode(fontNamed: "Courier")
+        let healthLabel = SKLabelNode(fontNamed: "Space Age")
         healthLabel.name = kHealthHudName
         healthLabel.fontSize = 25
         

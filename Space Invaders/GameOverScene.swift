@@ -27,7 +27,7 @@ class GameOverScene: SKScene {
     }
     
     func createContent() {
-        let gameOverLabel = SKLabelNode(fontNamed: "Courier")
+        let gameOverLabel = SKLabelNode(fontNamed: "Space Age")
         gameOverLabel.fontSize = 50
         gameOverLabel.fontColor = SKColor.whiteColor()
         gameOverLabel.text = "Game Over!"
@@ -35,7 +35,7 @@ class GameOverScene: SKScene {
         
         self.addChild(gameOverLabel)
         
-        let tapLabel = SKLabelNode(fontNamed: "Courier")
+        let tapLabel = SKLabelNode(fontNamed: "Space Age")
         tapLabel.fontSize = 25
         tapLabel.fontColor = SKColor.whiteColor()
         tapLabel.text = "(Tap to Play Again)"

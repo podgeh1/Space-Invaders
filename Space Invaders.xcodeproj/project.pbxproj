@@ -15,6 +15,12 @@
 		812F6F341A62DB87004D4649 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 812F6F331A62DB87004D4649 /* Images.xcassets */; };
 		812F6F371A62DB87004D4649 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 812F6F351A62DB87004D4649 /* LaunchScreen.xib */; };
 		812F6F431A62DB88004D4649 /* Space_InvadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812F6F421A62DB88004D4649 /* Space_InvadersTests.swift */; };
+		81C191D21A69258C00A61BB1 /* startupSpaceBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C191D11A69258C00A61BB1 /* startupSpaceBackground.png */; };
+		81C191D41A69270E00A61BB1 /* Jason-Zigrino-iOS-8-GM-Wallpapers-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C191D31A69270E00A61BB1 /* Jason-Zigrino-iOS-8-GM-Wallpapers-1.png */; };
+		81C191D61A69469600A61BB1 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81C191D51A69469500A61BB1 /* Media.xcassets */; };
+		81C191DA1A69762300A61BB1 /* space age.otf in Resources */ = {isa = PBXBuildFile; fileRef = 81C191D71A69762300A61BB1 /* space age.otf */; };
+		81C191DB1A69762300A61BB1 /* space age.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 81C191D81A69762300A61BB1 /* space age.ttf */; };
+		81C191DC1A69762300A61BB1 /* Space.txt in Resources */ = {isa = PBXBuildFile; fileRef = 81C191D91A69762300A61BB1 /* Space.txt */; };
 		81D552011A659A30005A39C1 /* Laser_Shoot2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 81D552001A659A30005A39C1 /* Laser_Shoot2.wav */; };
 		81D552031A65BF8A005A39C1 /* Laser_Shoot23.wav in Resources */ = {isa = PBXBuildFile; fileRef = 81D552021A65BF8A005A39C1 /* Laser_Shoot23.wav */; };
 		81D552051A65EC04005A39C1 /* Explosion18.wav in Resources */ = {isa = PBXBuildFile; fileRef = 81D552041A65EC04005A39C1 /* Explosion18.wav */; };
@@ -60,6 +66,12 @@
 		812F6F3C1A62DB88004D4649 /* Space InvadersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Space InvadersTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		812F6F411A62DB88004D4649 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		812F6F421A62DB88004D4649 /* Space_InvadersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space_InvadersTests.swift; sourceTree = "<group>"; };
+		81C191D11A69258C00A61BB1 /* startupSpaceBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startupSpaceBackground.png; sourceTree = "<group>"; };
+		81C191D31A69270E00A61BB1 /* Jason-Zigrino-iOS-8-GM-Wallpapers-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Jason-Zigrino-iOS-8-GM-Wallpapers-1.png"; sourceTree = "<group>"; };
+		81C191D51A69469500A61BB1 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = "Space Invaders/Images.xcassets/Media.xcassets"; sourceTree = "<group>"; };
+		81C191D71A69762300A61BB1 /* space age.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "space age.otf"; sourceTree = "<group>"; };
+		81C191D81A69762300A61BB1 /* space age.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "space age.ttf"; sourceTree = "<group>"; };
+		81C191D91A69762300A61BB1 /* Space.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Space.txt; sourceTree = "<group>"; };
 		81D552001A659A30005A39C1 /* Laser_Shoot2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Laser_Shoot2.wav; sourceTree = "<group>"; };
 		81D552021A65BF8A005A39C1 /* Laser_Shoot23.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Laser_Shoot23.wav; sourceTree = "<group>"; };
 		81D552041A65EC04005A39C1 /* Explosion18.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Explosion18.wav; sourceTree = "<group>"; };
@@ -103,6 +115,7 @@
 		812F6F1A1A62DB86004D4649 = {
 			isa = PBXGroup;
 			children = (
+				81C191D51A69469500A61BB1 /* Media.xcassets */,
 				812F6F251A62DB87004D4649 /* Space Invaders */,
 				812F6F3F1A62DB88004D4649 /* Space InvadersTests */,
 				812F6F241A62DB87004D4649 /* Products */,
@@ -156,6 +169,11 @@
 				81D552531A67E109005A39C1 /* InvaderA_01.png */,
 				81D552541A67E109005A39C1 /* InvaderA_00@2x.png */,
 				81D552551A67E109005A39C1 /* InvaderA_00.png */,
+				81C191D11A69258C00A61BB1 /* startupSpaceBackground.png */,
+				81C191D31A69270E00A61BB1 /* Jason-Zigrino-iOS-8-GM-Wallpapers-1.png */,
+				81C191D71A69762300A61BB1 /* space age.otf */,
+				81C191D81A69762300A61BB1 /* space age.ttf */,
+				81C191D91A69762300A61BB1 /* Space.txt */,
 				812F6F271A62DB87004D4649 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -260,27 +278,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				81D5525F1A67E109005A39C1 /* InvaderB_00.png in Resources */,
+				81C191DA1A69762300A61BB1 /* space age.otf in Resources */,
 				812F6F371A62DB87004D4649 /* LaunchScreen.xib in Resources */,
 				812F6F341A62DB87004D4649 /* Images.xcassets in Resources */,
 				81D552631A67E109005A39C1 /* InvaderA_00.png in Resources */,
 				81D552051A65EC04005A39C1 /* Explosion18.wav in Resources */,
+				81C191D61A69469600A61BB1 /* Media.xcassets in Resources */,
 				812F6F2B1A62DB87004D4649 /* GameScene.sks in Resources */,
 				81D552601A67E109005A39C1 /* InvaderA_01@2x.png in Resources */,
 				81D552071A65EDDC005A39C1 /* Explosion26.wav in Resources */,
 				81D552561A67E109005A39C1 /* Ship@2x.png in Resources */,
 				81D552611A67E109005A39C1 /* InvaderA_01.png in Resources */,
+				81C191DB1A69762300A61BB1 /* space age.ttf in Resources */,
 				81D5525C1A67E109005A39C1 /* InvaderB_01@2x.png in Resources */,
 				81D5525E1A67E109005A39C1 /* InvaderB_00@2x.png in Resources */,
 				81D552031A65BF8A005A39C1 /* Laser_Shoot23.wav in Resources */,
 				81D5525B1A67E109005A39C1 /* InvaderC_00.png in Resources */,
 				81D552571A67E109005A39C1 /* Ship.png in Resources */,
 				81D552011A659A30005A39C1 /* Laser_Shoot2.wav in Resources */,
+				81C191D41A69270E00A61BB1 /* Jason-Zigrino-iOS-8-GM-Wallpapers-1.png in Resources */,
 				81D552621A67E109005A39C1 /* InvaderA_00@2x.png in Resources */,
 				812F6F321A62DB87004D4649 /* Main.storyboard in Resources */,
 				81D5525A1A67E109005A39C1 /* InvaderC_00@2x.png in Resources */,
 				81D5525D1A67E109005A39C1 /* InvaderB_01.png in Resources */,
 				81D552591A67E109005A39C1 /* InvaderC_01.png in Resources */,
+				81C191D21A69258C00A61BB1 /* startupSpaceBackground.png in Resources */,
 				81D552581A67E109005A39C1 /* InvaderC_01@2x.png in Resources */,
+				81C191DC1A69762300A61BB1 /* Space.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
