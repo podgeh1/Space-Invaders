@@ -43,6 +43,7 @@
 		81D552631A67E109005A39C1 /* InvaderA_00.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D552551A67E109005A39C1 /* InvaderA_00.png */; };
 		81D552671A68008D005A39C1 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D552661A68008D005A39C1 /* GameOverScene.swift */; };
 		81D552691A6868AB005A39C1 /* GameWonScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D552681A6868AB005A39C1 /* GameWonScene.swift */; };
+		81DDC2F61A70092200E174AC /* GameSplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DDC2F51A70092200E174AC /* GameSplashScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +97,7 @@
 		81D552551A67E109005A39C1 /* InvaderA_00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = InvaderA_00.png; sourceTree = "<group>"; };
 		81D552661A68008D005A39C1 /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		81D552681A6868AB005A39C1 /* GameWonScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameWonScene.swift; sourceTree = "<group>"; };
+		81DDC2F51A70092200E174AC /* GameSplashScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSplashScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 				812F6F281A62DB87004D4649 /* AppDelegate.swift */,
 				812F6F2A1A62DB87004D4649 /* GameScene.sks */,
 				812F6F2C1A62DB87004D4649 /* GameScene.swift */,
+				81DDC2F51A70092200E174AC /* GameSplashScreen.swift */,
 				81D552681A6868AB005A39C1 /* GameWonScene.swift */,
 				81D552661A68008D005A39C1 /* GameOverScene.swift */,
 				812F6F2E1A62DB87004D4649 /* GameViewController.swift */,
@@ -332,6 +335,7 @@
 			files = (
 				812F6F2D1A62DB87004D4649 /* GameScene.swift in Sources */,
 				812F6F2F1A62DB87004D4649 /* GameViewController.swift in Sources */,
+				81DDC2F61A70092200E174AC /* GameSplashScreen.swift in Sources */,
 				81D552671A68008D005A39C1 /* GameOverScene.swift in Sources */,
 				81D552691A6868AB005A39C1 /* GameWonScene.swift in Sources */,
 				812F6F291A62DB87004D4649 /* AppDelegate.swift in Sources */,
