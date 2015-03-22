@@ -13,9 +13,9 @@
 		812F6F2F1A62DB87004D4649 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812F6F2E1A62DB87004D4649 /* GameViewController.swift */; };
 		812F6F321A62DB87004D4649 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 812F6F301A62DB87004D4649 /* Main.storyboard */; };
 		812F6F341A62DB87004D4649 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 812F6F331A62DB87004D4649 /* Images.xcassets */; };
-		812F6F371A62DB87004D4649 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 812F6F351A62DB87004D4649 /* LaunchScreen.xib */; };
 		812F6F431A62DB88004D4649 /* Space_InvadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812F6F421A62DB88004D4649 /* Space_InvadersTests.swift */; };
-		8173AB411A6AA1E2002BB1C8 /* LaunchScreen2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8173AB401A6AA1E2002BB1C8 /* LaunchScreen2.xib */; };
+		816519221ABF5C590080D801 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 816519211ABF5C590080D801 /* Launch Screen.xib */; };
+		816519241ABF5CB90080D801 /* SpaceInvadersLaunchiPhone6Plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 816519231ABF5CB90080D801 /* SpaceInvadersLaunchiPhone6Plus.png */; };
 		8173AB431A6B033E002BB1C8 /* Screen Shot 2015-01-17 at 8.50.26 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = 8173AB421A6B033E002BB1C8 /* Screen Shot 2015-01-17 at 8.50.26 PM.png */; };
 		81C191D21A69258C00A61BB1 /* startupSpaceBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C191D11A69258C00A61BB1 /* startupSpaceBackground.png */; };
 		81C191D41A69270E00A61BB1 /* Jason-Zigrino-iOS-8-GM-Wallpapers-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C191D31A69270E00A61BB1 /* Jason-Zigrino-iOS-8-GM-Wallpapers-1.png */; };
@@ -65,11 +65,11 @@
 		812F6F2E1A62DB87004D4649 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		812F6F311A62DB87004D4649 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		812F6F331A62DB87004D4649 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		812F6F361A62DB87004D4649 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		812F6F3C1A62DB88004D4649 /* Space InvadersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Space InvadersTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		812F6F411A62DB88004D4649 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		812F6F421A62DB88004D4649 /* Space_InvadersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space_InvadersTests.swift; sourceTree = "<group>"; };
-		8173AB401A6AA1E2002BB1C8 /* LaunchScreen2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen2.xib; sourceTree = "<group>"; };
+		816519211ABF5C590080D801 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Launch Screen.xib"; path = "../Launch Screen.xib"; sourceTree = "<group>"; };
+		816519231ABF5CB90080D801 /* SpaceInvadersLaunchiPhone6Plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SpaceInvadersLaunchiPhone6Plus.png; path = ../SpaceInvadersLaunchiPhone6Plus.png; sourceTree = "<group>"; };
 		8173AB421A6B033E002BB1C8 /* Screen Shot 2015-01-17 at 8.50.26 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen Shot 2015-01-17 at 8.50.26 PM.png"; sourceTree = "<group>"; };
 		81C191D11A69258C00A61BB1 /* startupSpaceBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startupSpaceBackground.png; sourceTree = "<group>"; };
 		81C191D31A69270E00A61BB1 /* Jason-Zigrino-iOS-8-GM-Wallpapers-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Jason-Zigrino-iOS-8-GM-Wallpapers-1.png"; sourceTree = "<group>"; };
@@ -121,7 +121,6 @@
 		812F6F1A1A62DB86004D4649 = {
 			isa = PBXGroup;
 			children = (
-				8173AB401A6AA1E2002BB1C8 /* LaunchScreen2.xib */,
 				81C191D51A69469500A61BB1 /* Media.xcassets */,
 				812F6F251A62DB87004D4649 /* Space Invaders */,
 				812F6F3F1A62DB88004D4649 /* Space InvadersTests */,
@@ -149,8 +148,8 @@
 				81D552661A68008D005A39C1 /* GameOverScene.swift */,
 				812F6F2E1A62DB87004D4649 /* GameViewController.swift */,
 				812F6F301A62DB87004D4649 /* Main.storyboard */,
+				816519211ABF5C590080D801 /* Launch Screen.xib */,
 				812F6F331A62DB87004D4649 /* Images.xcassets */,
-				812F6F351A62DB87004D4649 /* LaunchScreen.xib */,
 				812F6F261A62DB87004D4649 /* Supporting Files */,
 			);
 			path = "Space Invaders";
@@ -159,6 +158,7 @@
 		812F6F261A62DB87004D4649 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				816519231ABF5CB90080D801 /* SpaceInvadersLaunchiPhone6Plus.png */,
 				81D552001A659A30005A39C1 /* Laser_Shoot2.wav */,
 				81D552021A65BF8A005A39C1 /* Laser_Shoot23.wav */,
 				81D552041A65EC04005A39C1 /* Explosion18.wav */,
@@ -288,9 +288,10 @@
 			files = (
 				81D5525F1A67E109005A39C1 /* InvaderB_00.png in Resources */,
 				81C191DA1A69762300A61BB1 /* space age.otf in Resources */,
-				812F6F371A62DB87004D4649 /* LaunchScreen.xib in Resources */,
+				816519221ABF5C590080D801 /* Launch Screen.xib in Resources */,
 				8173AB431A6B033E002BB1C8 /* Screen Shot 2015-01-17 at 8.50.26 PM.png in Resources */,
 				812F6F341A62DB87004D4649 /* Images.xcassets in Resources */,
+				816519241ABF5CB90080D801 /* SpaceInvadersLaunchiPhone6Plus.png in Resources */,
 				81D552631A67E109005A39C1 /* InvaderA_00.png in Resources */,
 				81D552051A65EC04005A39C1 /* Explosion18.wav in Resources */,
 				81C191D61A69469600A61BB1 /* Media.xcassets in Resources */,
@@ -298,7 +299,6 @@
 				81D552601A67E109005A39C1 /* InvaderA_01@2x.png in Resources */,
 				81D552071A65EDDC005A39C1 /* Explosion26.wav in Resources */,
 				81D552561A67E109005A39C1 /* Ship@2x.png in Resources */,
-				8173AB411A6AA1E2002BB1C8 /* LaunchScreen2.xib in Resources */,
 				81D552611A67E109005A39C1 /* InvaderA_01.png in Resources */,
 				81C191DB1A69762300A61BB1 /* space age.ttf in Resources */,
 				81D5525C1A67E109005A39C1 /* InvaderB_01@2x.png in Resources */,
@@ -367,14 +367,6 @@
 				812F6F311A62DB87004D4649 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		812F6F351A62DB87004D4649 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				812F6F361A62DB87004D4649 /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -461,12 +453,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Space Invaders/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -474,12 +468,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Space Invaders/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

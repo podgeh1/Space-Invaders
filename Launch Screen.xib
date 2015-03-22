@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SpaceInvadersLaunchiPhone6Plus.png" translatesAutoresizingMaskIntoConstraints="NO" id="vWq-8p-dGd">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="480" id="bGi-X0-HnP"/>
+                        <constraint firstAttribute="width" constant="480" id="cC6-lo-kqI"/>
+                        <constraint firstAttribute="height" constant="480" id="ebJ-9N-ykb"/>
+                        <constraint firstAttribute="width" constant="480" id="f6y-xi-RfL"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="bGi-X0-HnP"/>
+                            <exclude reference="cC6-lo-kqI"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="bGi-X0-HnP"/>
+                            <include reference="cC6-lo-kqI"/>
+                        </mask>
+                    </variation>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="vWq-8p-dGd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="aAN-M8-YR1"/>
+                <constraint firstItem="vWq-8p-dGd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="fSj-I1-6gt"/>
+                <constraint firstAttribute="centerX" secondItem="vWq-8p-dGd" secondAttribute="centerX" id="gxB-Rq-uOr"/>
+                <constraint firstAttribute="centerX" secondItem="vWq-8p-dGd" secondAttribute="centerX" id="oKa-9i-VpO"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="aAN-M8-YR1"/>
+                    <exclude reference="oKa-9i-VpO"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=compact">
+                <mask key="constraints">
+                    <include reference="aAN-M8-YR1"/>
+                    <include reference="oKa-9i-VpO"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="404" y="445"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="SpaceInvadersLaunchiPhone6Plus.png" width="1242" height="2208"/>
+    </resources>
+</document>

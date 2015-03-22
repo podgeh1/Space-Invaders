@@ -139,6 +139,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Scene Setup and Content Creation
     override func didMoveToView(view: SKView) {
         
+//        let gameSplashScreen: GameSplashScreen = GameSplashScreen(size: self.size)
+//        
+//        view.presentScene(gameSplashScreen, transition: SKTransition.doorsOpenHorizontalWithDuration(1.0))
+        
         if (!self.contentCreated) {
             self.createContent()
             self.contentCreated = true
@@ -267,7 +271,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //method to setup the invaders position in the scene and which invader type each invader should have
     func setupInvaders() {
         //declare and set the base origin
-        let baseOrigin = CGPoint(x:size.width / 3, y:180)
+        let baseOrigin = CGPoint(x:size.width / 3, y:180) //(138,180)
         // loop over the rows
         for var row = 1; row <= kInvaderRowCount; row++ {
             //choose a single invader type for all invaders in this row based on row number
@@ -279,7 +283,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else {
                 invaderType = .C
             }
-            //do some math to figure out where the first invader in this row should be positioned
+            //do some math to figure out where the FIRST invader in this row should be positioned
             let invaderPositionY = CGFloat(row) * (kInvaderSize.height * 2) + baseOrigin.y
             var invaderPosition = CGPoint(x:baseOrigin.x, y:invaderPositionY)
             
@@ -354,7 +358,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         //color the score label green
-        scoreLabel.fontColor = SKColor.greenColor()
+        scoreLabel.fontColor = SKColor(red: 0.58, green: 0.90, blue: 0.43, alpha: 1.00)
         scoreLabel.text = NSString(format: "Score: %04u", 0)
         
         //position the score label
@@ -369,7 +373,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         healthLabel.fontSize = 25
         
         //Color the health label red 
-        healthLabel.fontColor = SKColor.redColor()
+        healthLabel.fontColor = SKColor(red: 1.00, green: 0.42, blue: 0.43, alpha: 1.00)
         //set the hud text based on the actual health of the ship
         healthLabel.text = String(format: "Health: %.1f%%", self.shipHealth * 100.0)
         
@@ -466,10 +470,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //call the contact queue handler
         processContactsForUpdate(currentTime)
         
-        //tell the ships to fire!!!!!!!
+        //tell the invaders to fire!!!!!!!
         fireInvaderBulletsForUpdate(currentTime)
         
-        //process user taps
+        //process user taps - tell the ship to fire!!!!!!!
         processUserTapsForUpdate(currentTime)
         
         //move the ship
@@ -624,7 +628,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //if let data -- checks if there is a value in accelerometerData: if this is the case, assign it to the constant data to use it safely within the if's scope
             if let data = motionManager.accelerometerData {
                 
-                //if the device is oriented with the screen facing up + home button at the button, then tilting the devices to the right produces data.acceleration.x > 0, therefore tilting to the left produces data.acceleration.x < 0 and if the device is laid down flat it will produce data.acceleration == 0 (or as long as it's close to 0.2)
+                //if the device is oriented with the screen facing up + home button at the bottom, then tilting the devices to the right produces data.acceleration.x > 0, therefore tilting to the left produces data.acceleration.x < 0 and if the device is laid down flat it will produce data.acceleration == 0 (or as long as it's close to 0.2)
                 //fabs returns the absolute value of x
                 if (fabs(data.acceleration.x) > 0.2) {
                     
@@ -837,6 +841,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         //containsObject is not implemented in swift array i.e. I'm going cast the Array to NSArray in order to get access to NSArray's methods
+        //check if ship and invader bullet have made contact
         if (nodeNames as NSArray).containsObject(kShipName) && (nodeNames as NSArray).containsObject(kInvaderFiredBulletName) {
             
             //If invader bullet hits the ship, play sound
@@ -892,6 +897,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Iterate through invaders to check if any are too low
         var invaderTooLow = false
         
+        //iterate through the invaders - if min Y value of the invader is less than the mininmum value I defined(kMinInvaderBottomHeight) - set invaderTooLow to true
         self.enumerateChildNodesWithName(kInvaderName) {
             node, stop in
             

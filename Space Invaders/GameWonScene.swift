@@ -28,7 +28,7 @@ class GameWonScene: SKScene {
     func createContent() {
         //create game won label
         let gameWonLabel = SKLabelNode(fontNamed: "Space Age")
-        gameWonLabel.fontSize = 50
+        gameWonLabel.fontSize = 20
         gameWonLabel.fontColor = SKColor.whiteColor()
         gameWonLabel.text = "You Won!!"
         gameWonLabel.position = CGPointMake(self.size.width/2, 2.0 / 3.0 * self.size.height)
@@ -38,7 +38,7 @@ class GameWonScene: SKScene {
         
         //create tap label 
         let tapLabel = SKLabelNode(fontNamed: "Space Age")
-        tapLabel.fontSize = 25
+        tapLabel.fontSize = 20
         tapLabel.fontColor = SKColor.whiteColor()
         tapLabel.text = "(Tap to Play Again)"
         tapLabel.position = CGPointMake(self.size.width/2, gameWonLabel.frame.origin.y - gameWonLabel.frame.size.height - 40)
